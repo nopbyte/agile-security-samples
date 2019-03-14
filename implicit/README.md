@@ -1,11 +1,4 @@
-#Implicit Authentication Example
-
-The implicit authentication enables applications that are not capable of generating server side requests to authenticate the client, to still rely on an identity provider.
-A typical example of this, is a case in which an application that runs in a browser and executes JavaScript code. In this simplified authentication grant flow, the web browser
-obtains a token directly from the authentication service through a redirection.
-
-The key consideration when this authentication grant is used is that the browser obtains access to the token directly. On the contrary, in the authorization code flow, the browser only obtains an authorization code, which is normally useless unless the browser managed to obtain the secret of the client application (which should never be shared with the browser).
-
+# Implicit Authentication Example
 
 ## Run
 
