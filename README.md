@@ -7,6 +7,7 @@ AGILE IDM is an Oauth2 server that implements the following grant flows:
 * authorization code: a web application obtains an authorization code after the user has logged in, and afterwards it executes calls (directly from server side) to exchange the authorization for an access token. In this flow, the browser does not access the access token, making it the most secure approach.
 * implicit: a web application obtains the token after the user has logged in. In this case, the browser will obtain the token directly. In this case, the server neither requires to  execute server side code to exchange codes for tokens nor to execute server side code to authenticate itself. Although this approach can be easier to implement, there is an additional risk since the browser obtains the token.
 * client credentials: this grant flow allows an application (without user interaction or web interface) to obtain an access token by providing the client id and its credentials.
+* user credentials: this grant flow allows an application to provide username and password for a local user to obtain an OAuth2 token
 
 The folders within this repository include several examples to illustrate applications using the different kind of authentication grants. Further, in the case of the authorization code grant, a complete application generating requests to AGILE IDM to register entities, groups, update attributes etc is also provided.
 
@@ -20,8 +21,33 @@ Each kind of OAuth2 client requires different aspects. For example, Implicit aut
 **These configurations must be updated when the security components are going to be used in production**
 
 
+## Authorization Code
 
+The authorization code flow is the most secure (and more complex) authorization flow in OAuth2. The client forwards the browser to the IdP, then the IdP redirects the browser to the client with an authorization code. Only then, can the client use its credentials to exchange the code for an actual token. In this flow, the browser never obtains the token. Agile-security creates a client to do the authorization code grant by including the following configuration, to ensure that the client is created on boot.
 
+```
+{
+    "id": "AuthCodeClient",
+    "name": "AuthCodeClient",
+    "clientSecret": "Ultrasecretstuff",
+    "redirectURI": "http://localhost:3002/auth/example/callback"
+}
+```
+
+## Client Credentials
+
+This example shows how to create a client and authenticate using the client credentials Oauth2 flow, as per RFC 749, from an application. The main advantage offered by the client credentials flow is that an application without a web-based user interface, can still get tokens and provide them to AGILE security. However, this method does not take advantage of the external identity providers (such as Google ,Github, etc).
+
+The OAuth2 client requires to have a client secret for a client credentials authorization flow. So agile security creates the following client during boot.
+
+```
+{
+    "id": "ClientCredentialsClient",
+    "name": "ClientCredentialsClient",
+    "clientSecret": "Ultrasecretstuff"
+
+}
+```
 
 ### Implicit
 

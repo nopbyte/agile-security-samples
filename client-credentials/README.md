@@ -1,25 +1,6 @@
-#Client Credentials Example
+# Client Credentials sample
 
-This example shows how to create a client and authenticate using the client credentials Oauth2 flow, as per RFC 749, from an application. The main advantage offered by the client credendials flow is that an application without a web-based user interface, can still get tokens and provide them to AGILE IDM, and the AGILE framework to perform actions. However, this method does not take advantage of the external identity providers (such as google and github, webid, etc) included in AGILE IDM.
-
-## Set up
-
-First of all, we need to create the first user with IDM, if it not already created:
-For this, execute the following command in the scripts folder of agile-idm-web-ui
-
-```
-  node createUser.js --username=bob --password=secret  --auth=agile-local
-```
-
-Afterwards an Oauth2 client must be created, make sure to provide an existing user to the createClient script.
-
-```
-node createClient.js --client=MyAgileClient2 --name="My first example as IDM client" --secret="Ultrasecretstuff" --owner=bob --auth_type=agile-local --uri=http://localhost:3002/auth/example/callback
-```
-
-
-
-##Overview
+## Overview
 
 Assuming that an oauth2 client has been registered in AGILE IDM, the flow to obtain an access token for the client using the client credentials flow is depicted in the following picture.
 
@@ -47,13 +28,13 @@ In  case of the client credentials flow the owner of the client is represented a
 The sample application can be executed from a terminal to authenticate the client we just created like this:
 
 ```
-node authenticateClient.js  --client MyAgileClient2  --secret Ultrasecretstuff
+node authenticateClient.js  --client ClientCredentialsClient  --secret Ultrasecretstuff
 ```
 
 It is also possible to execute the authentication script providing additional arguments such as protocol, port, and host like this:
 
 ```
-node authenticateClient.js  --client MyAgileClient2  --secret Ultrasecretstuff --host 127.0.0.1 --protocol http -- port 3000
+node authenticateClient.js  --client ClientCredentialsClient  --secret Ultrasecretstuff --host 127.0.0.1 --protocol http -- port 3000
 ```
 
 ## CURL
@@ -61,7 +42,7 @@ node authenticateClient.js  --client MyAgileClient2  --secret Ultrasecretstuff -
 Alternatively one could authenticate a client using tools to generate http requests such as curl.
 
 ```
-curl  -X POST -u MyAgileClient2:Ultrasecretstuff -d grant_type=client_credentials http://localhost:3000/oauth2/token
+curl  -X POST -u ClientCredentialsClient:Ultrasecretstuff -d grant_type=client_credentials http://localhost:3000/oauth2/token
 ```
 
 The previous command line call would use the proper HTTP Basic authentication mechanism to authenticate the client to AGILE IDM (assuming it is running in localhost in port 3000). The expected result looks like the following:
